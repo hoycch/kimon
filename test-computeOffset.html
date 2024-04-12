@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <title>Draw Line on Google Maps</title>
+</head>
+
+<body>
+    <div id="map" style="height: 800px; width: 100%;"></div>
+
+    <script>
+        var line;
+        function initMap() {
+            var mapOptions = {
+                zoom: 10,
+                center: { lat: 53.47272, lng: -2.2507 }
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            var initialPoint = new google.maps.LatLng(53.47272, -2.2507);
+            var destinationPoint = google.maps.geometry.spherical.computeOffset(initialPoint, 100000, 135);
+            line = new google.maps.Polyline({
+                path: [initialPoint, destinationPoint],
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+                map: map
+            });
+        }
+    </script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFHmGPhWZ4Y_jGaskHDG9Yo-lG-o7tHzQ&libraries=geometry&callback=initMap"
+        async defer></script>
+</body>
+
+</html>

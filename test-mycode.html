@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Draw Line on Google Maps</title>
+</head>
+
+<body>
+    <div id="map" style="height: 800px; width: 100%;"></div>
+
+    <script>
+
+
+        function initMap() {
+            var mapOptions = {
+                zoom: 4,
+                center: { lat: 30.363, lng: 250.044 }
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+            var origin = new google.maps.LatLng(-25.363, 214.044);
+
+            var fineLoxo = drawRhumbLine(origin.lat(), origin.lng(), 45, 1000);
+            var fineDrawingPath = new google.maps.Polyline({
+                path: fineLoxo,
+                geodesic: false, // Set to false because loxodrome is not eodesic
+                strokeColor: '#000',
+                strokeOpacity: 1.0,
+                strokeWeight: 5
+            });
+            fineDrawingPath.setMap(map);
+
+
+            var brokenLoxoPath = drawRhumbLine(origin.lat(), origin.lng(), 45, 4000000);
+             
+            var mediumDrawingPath = new google.maps.Polyline({
+                path: brokenLoxoPath,
+                geodesic: false, // Set to false because loxodrome is not geodesic
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            mediumDrawingPath.setMap(map);
+
+            var oneLoxoPath = drawRhumbLine(origin.lat(), origin.lng(), 45, 16000000);
+            var straightDrawingPath = new google.maps.Polyline({
+                path: oneLoxoPath,
+                geodesic: false, // Set to false because loxodrome is not geodesic
+                strokeColor: '#00F',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            straightDrawingPath.setMap(map);
+
+        }
+
+        function drawRhumbLine(startLat, startLng, bearingDegrees, interval) {
+            var dots = []
+
+            dots.push({ lat:startLat, lng:startLng});
+
+            for (let i = 0; i < 16000000/interval; i++) {
+                var tempOrigin = new google.maps.LatLng(startLat, startLng)
+                var dest = google.maps.geometry.spherical.computeOffset(tempOrigin, interval, bearingDegrees);
+                startLat = dest.lat();
+                startLng = dest.lng();
+                dots.push({ lat:startLat, lng:startLng});
+            }
+            return dots;
+        }
+
+    </script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFHmGPhWZ4Y_jGaskHDG9Yo-lG-o7tHzQ&libraries=geometry&callback=initMap"
+        async defer></script>
+</body>
+
+</html>

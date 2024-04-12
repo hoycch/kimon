@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Maps Rhumb Line to Southwest</title>
+<style>
+    #map {
+        height: 800px;
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 50.7128, lng: -70.0060}, // New York City coordinates
+            zoom: 5
+        });
+
+        // Define the initial point (latitude and longitude)
+        var initialPoint = new google.maps.LatLng(80.7128, -35.0060);
+        var newyork = new google.maps.LatLng(40.7128, -74.0060);
+
+        // Calculate the destination point using initial bearing
+        var destinationPoint = google.maps.geometry.spherical.computeOffset(initialPoint, 5000000, 225);
+
+        var towhere = google.maps.geometry.spherical.computeOffset(newyork, 5000000, 225);
+        // Draw the Rhumb line
+        var line = new google.maps.Polyline({
+            path: [initialPoint, destinationPoint],
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+            map: map
+        });
+        var line2 = new google.maps.Polyline({
+            path: [newyork, towhere],
+            geodesic: true,
+            strokeColor: '#0000FF',
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+            map: map
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFHmGPhWZ4Y_jGaskHDG9Yo-lG-o7tHzQ&libraries=geometry&callback=initMap" async defer></script>
+</body>
+</html>

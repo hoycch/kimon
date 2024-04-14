@@ -1,11 +1,10 @@
 
 function drawRhumbLines() {
     clearMarkers();
-    var defaultDistance;
-    if (latInputValue.length > 0 && lngInputValue.length > 0)
-        StartingPoint = new google.maps.LatLng(parseFloat(latInputValue), parseFloat(lngInputValue));
-    if (DistanceInputValue.length > 0)
-        defaultDistance = parseInt(DistanceInputValue);
+    if (latInput.value.length > 0 && lngInput.value.length > 0)
+        StartingPoint = new google.maps.LatLng(parseFloat(latInput.value), parseFloat(lngInput.value));
+    if (distanceInput.value.length > 0)
+        defaultDistance = parseInt(distanceInput.value);
     map.setCenter({ lat: StartingPoint.lat(), lng: StartingPoint.lng()});
 
     angles.forEach(function (angle) {
@@ -37,7 +36,7 @@ function clearMarkers() {
 }
 function changeDistance(distance){
     var ZoomNum = 12- Math.floor(Math.log2(distance/3));
-
+    DistanceInputValue = distance;
     map.setZoom(ZoomNum);
     drawRhumbLines();
 }

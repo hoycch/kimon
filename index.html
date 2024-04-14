@@ -164,9 +164,9 @@
         var lines = [];
         var map;
         var StartingPoint;
-        const latInputValue = document.getElementById('latitude').value;
-        const lngInputValue = document.getElementById('longitude').value;
-        const DistanceInputValue = document.getElementById('distance').value;
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        const distanceInput = document.getElementById('distance');
         const angles = Array.from({ length: 8 }, (_, index) => index * 45 + 22.5)
         const angles2 = Array.from({ length: 8 }, (_, index) => {
             var i = index - 4;
